@@ -6,7 +6,23 @@ geographical data.
 
 """
 
-from .utils import sorted_by_key  # noqa
+from floodsystem.utils import sorted_by_key  # noqa
+
+from haversine import haversine, Unit
+
+def stations_by_distance(stations,p):
+    """Given a list of station objects and a coordinate, the function returns a list of tuples
+    (station, distance)"""
+    distances = []
+    for station in stations:
+        coordinate = station.coord
+        distance = haversine(coordinate, p)
+        distances.append((station, distance))
+
+    sorted_distances = sorted_by_key(distances,1)
+
+    return sorted_distances
+
 
 def stations_by_river(stations):
     """Returns a dictionary containing rivers (keys), and the stations on each river (values)"""
