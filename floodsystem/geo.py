@@ -7,15 +7,21 @@ geographical data.
 """
 
 from .utils import sorted_by_key  # noqa
-from haversine import haversine, Unit
 
-def stations_by_distance(stations, p):
-    coordinates = [MonitoringStation.coord]
-    distance = []
-    for x in coordinates:
-        distance.append(haversine(x,p))
+def stations_by_river(stations):
+    """Returns a dictionary containing rivers (keys), and the stations on each river (values)"""
+    rivers = {}
+    for station in stations:
+        # only add the river if station.river has been set
+        river = station.river
+        if river is not None:
+            if river in rivers:
+                rivers[river].append(station)
+            else:
+                rivers[river] = []
 
+    return rivers
 
-    utils.sort_by_key
-
-    return
+def rivers_with_station(stations):
+    """Returns the names of rivers on which a station is situated"""
+    return set(stations_by_river(stations).keys())
