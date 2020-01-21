@@ -5,7 +5,6 @@
 geographical data.
 
 """
-
 from floodsystem.utils import sorted_by_key  # noqa
 
 from haversine import haversine, Unit
