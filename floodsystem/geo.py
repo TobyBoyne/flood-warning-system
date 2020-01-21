@@ -30,10 +30,12 @@ def stations_by_river(stations):
         # only add the river if station.river has been set
         river = station.river
         if river is not None:
+            # add the station to the river key in the dictionary
+            # if the key is not in the dictionary, add it
             if river in rivers:
                 rivers[river].append(station)
             else:
-                rivers[river] = []
+                rivers[river] = [station]
 
     return rivers
 
