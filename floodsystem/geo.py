@@ -21,3 +21,7 @@ def stations_by_river(stations):
                 rivers[river] = []
 
     return rivers
+
+def rivers_with_station(stations):
+    """Returns the names of rivers on which a station is situated"""
+    return set(stations_by_river(stations).keys())
