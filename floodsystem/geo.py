@@ -9,6 +9,7 @@ from floodsystem.utils import sorted_by_key  # noqa
 
 from haversine import haversine, Unit
 
+
 def stations_by_distance(stations,p):
     """Given a list of station objects and a coordinate, the function returns a list of tuples
     (station, distance)"""
@@ -39,6 +40,23 @@ def stations_by_river(stations):
 
     return rivers
 
+
 def rivers_with_station(stations):
     """Returns the names of rivers on which a station is situated"""
     return set(stations_by_river(stations).keys())
+
+
+def rivers_by_station_number(stations, N):
+    """Returns a list of tuples
+    (river, number of stations on that river)"""
+    river_counts = []
+    river_dict = stations_by_river(stations)
+    for (river, river_stations) in river_dict.items():
+        river_counts.append((river, len(river_stations)))
+
+    # sort the list of rivers by number of stations, then by alphabetical
+    # removes any ambiguity for tied rivers
+    sorted_rivers = sorted_by_key(river_counts, 0)
+    sorted_rivers = sorted_by_key(sorted_rivers, 1, reverse=True)
+
+    return first_N_with_ties(sorted_rivers, N)
