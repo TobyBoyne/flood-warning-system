@@ -27,3 +27,19 @@ def sorted_by_key(x, i, reverse=False):
         return element[i]
 
     return sorted(x, key=key, reverse=reverse)
+
+def first_N_with_ties(x, N, i=None):
+    """Returns first N elements of a sorted list
+    If any elements after the first N have the same key value, return those elements as well
+    For a list of tuples, i indexes the tuple"""
+
+    idx = 0
+    last_value = None
+
+    while idx < len(x):
+        # if N elements have been yielded, and the current element is not a tie with the previous, then stop yielding
+        if idx >= N and x[i] != last_value:
+            break
+
+        yield x[i]
+        idx += 1
