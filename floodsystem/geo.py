@@ -59,4 +59,4 @@ def rivers_by_station_number(stations, N):
     sorted_rivers = sorted_by_key(river_counts, 0)
     sorted_rivers = sorted_by_key(sorted_rivers, 1, reverse=True)
 
-    return first_N_with_ties(sorted_rivers, N)
+    return list(first_N_with_ties(sorted_rivers, N, i=1))

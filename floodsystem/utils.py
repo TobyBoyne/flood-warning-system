@@ -38,8 +38,9 @@ def first_N_with_ties(x, N, i=None):
 
     while idx < len(x):
         # if N elements have been yielded, and the current element is not a tie with the previous, then stop yielding
-        if idx >= N and x[i] != last_value:
+        if idx >= N and x[idx][i] != last_value:
             break
 
-        yield x[i]
+        yield x[idx]
+        last_value = x[idx][i]
         idx += 1
