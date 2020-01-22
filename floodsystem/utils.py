@@ -28,7 +28,7 @@ def sorted_by_key(x, i, reverse=False):
 
     return sorted(x, key=key, reverse=reverse)
 
-def first_N_with_ties(x, N, i=None):
+def first_N_with_ties(x, N, i=0):
     """Returns first N elements of a sorted list
     If any elements after the first N have the same key value, return those elements as well
     For a list of tuples, i indexes the tuple"""

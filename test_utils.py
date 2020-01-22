@@ -55,3 +55,20 @@ def test_reverse_sort():
     assert list1[0] == c
     assert list1[1] == a
     assert list1[2] == b
+
+
+def test_first_N_with_ties():
+    """Test the function first_N_with_ties()
+    Input must be a sorted list of tuples
+    The output should have length 3 (due to tie of b and c)"""
+
+    my_list = [
+        ('a', 9),
+        ('b', 7),
+        ('c', 7),
+        ('d', 5)
+    ]
+
+    first_N = floodsystem.utils.first_N_with_ties(my_list, 2, 1)
+
+    assert list(first_N) == [('a', 9), ('b', 7), ('c', 7)]
