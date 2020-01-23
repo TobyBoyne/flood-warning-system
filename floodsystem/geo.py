@@ -6,9 +6,7 @@ geographical data.
 
 """
 from floodsystem.utils import sorted_by_key, first_N_with_ties
-
 from haversine import haversine, Unit
-
 
 def stations_by_distance(stations,p):
     """Given a list of station objects and a coordinate, the function returns a list of tuples
@@ -23,6 +21,14 @@ def stations_by_distance(stations,p):
 
     return sorted_distances
 
+def stations_within_radius(stations, centre, r):
+    stations_in_radius = []
+    for station in stations:
+        distance = haversine(station.coord, centre)
+        if distance <= r:
+            stations_in_radius.append(station)
+
+    return stations_in_radius
 
 def stations_by_river(stations):
     """Returns a dictionary containing rivers (keys), and the stations on each river (values)"""
