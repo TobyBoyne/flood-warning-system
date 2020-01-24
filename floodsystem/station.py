@@ -39,9 +39,6 @@ class MonitoringStation:
         d += "   typical range: {}".format(self.typical_range)
         return d
 
-    x = low > high
-
-
     def typical_range_consistent(self):
         """Checks typical high/low range data for consistency"""
         if self.typical_range is None:
