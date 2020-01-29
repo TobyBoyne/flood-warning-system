@@ -31,3 +31,9 @@ def test_rivers_with_station():
     rivers = geo.rivers_with_station(stations)
 
     assert rivers == {"River Glen", "River Parrett", "Smestow Brook"}
+
+def test_rivers_by_station_number():
+    stations = gen_stations()
+    rivers = geo.rivers_by_station_number(stations, 1)
+
+    assert rivers == [("River Avon", 2), ("River Glen", 2)]
