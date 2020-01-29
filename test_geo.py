@@ -36,4 +36,4 @@ def test_rivers_by_station_number():
     stations = gen_stations()
     rivers = geo.rivers_by_station_number(stations, 1)
 
-    assert rivers == [("River Avon", 2), ("River Glen", 2)]
+    assert rivers == [("River Glen", 2), ("River Parrett", 2)]
