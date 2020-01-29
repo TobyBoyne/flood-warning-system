@@ -17,3 +17,11 @@ def test_stations_within_radius():
 
     assert within_radius == [stations[0], stations[2]]
 
+def test_stations_by_river():
+    stations = gen_stations()
+    rivers = geo.stations_by_river(stations)
+    example_rivers = {"River Glen": stations[0:2],
+                      "River Parrett": stations[2:4],
+                      "Smestow Brook": [stations[4]]}
+
+    assert rivers == example_rivers
