@@ -1,4 +1,3 @@
-import matplotlib.pyplot as plt
 from matplotlib.dates import date2num
 import numpy as np
 from datetime import date
@@ -6,23 +5,21 @@ from datetime import date
 from floodsystem.analysis import polyfit
 
 def test_polyfit():
+    """For an example set of dates, assert that the level at the date is equal to the level predicted
+    by the polyfit function at that point"""
     dates = np.array([
-        date(2020, 1, 2),
-        date(2020, 1, 5),
-        date(2020, 1, 8),
-        date(2020, 1, 14)
+        date(2020, 1, 1),
+        date(2020, 1, 4),
+        date(2020, 1, 8)
     ])
 
-    levels = np.array([2.5, 2, 1.7, 9])
+    levels = np.array([1.1, 7.6, 2.7])
 
-    poly, d0 = polyfit(dates, levels, 5)
+    # a polynomial of order 1 less than the total number of datapoints will pass through them all
+    N = len(dates) - 1
+    poly, d0 = polyfit(dates, levels, N)
 
-    start_time = date2num(date(2020, 1, 1))
-    xs = np.linspace(start_time, start_time + 15, 150)
-    print(xs - d0)
-    ys = poly(xs - d0)
-
-    plt.plot(xs - d0, ys)
-    plt.show()
-
-test_polyfit()
+    # iterate through the dates, and compare the actual level to the estimate value from poly
+    for i, d in enumerate(dates):
+        d_num = date2num(d)
+        assert round(levels[i] - poly(d_num - d0), 6) == 0
