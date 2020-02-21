@@ -6,8 +6,7 @@ from datetime import datetime
 from floodsystem.analysis import polyfit
 
 def plot_water_level_with_fit(station, dates, levels, p):
-    today = date2num(datetime(2020, 1, 29, 8))
-
+    today = date2num(dates[0])
     poly, d0 = polyfit(dates, levels, p)
 
     xs = np.linspace(today - 2, today, 1000)
