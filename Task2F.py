@@ -22,12 +22,13 @@ def run():
         # plot real data
         date_nums = date2num(dates) - date2num(dates[0])
         plt.plot(date_nums, levels, color="orange")
-        # plot high/low
-        plt.axhline(station.typical_range[0], linestyle="dashed", color="green")
-        plt.axhline(station.typical_range[1], linestyle="dashed", color="red")
 
         # plot line of best fit
         plot_water_level_with_fit(station, dates, levels, P)
+
+        # plot high/low
+        plt.axhline(station.typical_range[0], linestyle="dashed", color="green")
+        plt.axhline(station.typical_range[1], linestyle="dashed", color="red")
 
         plt.legend(("Real values", "Best fit", "Typical low", "Typical high"))
 
