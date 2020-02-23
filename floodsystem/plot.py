@@ -6,8 +6,8 @@ from datetime import datetime, timedelta
 from floodsystem.analysis import polyfit
 
 def plot_water_levels(station, dates, levels):
-"""Displays a plot of the water level data against time for a station, including
-plot lines for typical low and high levels"""
+    """Displays a plot of the water level data against time for a station, including
+    plot lines for typical low and high levels"""
     low = station.typical_range[0]
     high = station.typical_range[1]
 
