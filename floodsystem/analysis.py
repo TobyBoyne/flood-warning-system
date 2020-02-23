@@ -12,3 +12,8 @@ def polyfit(dates, levels, p):
     poly = np.poly1d(p_coeff)
 
     return poly, d0
+
+def gradient_at_time(poly, t):
+    der = np.polyder(poly)
+    gradient = der(t)
+    return gradient
