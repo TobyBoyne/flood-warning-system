@@ -1,4 +1,5 @@
 from floodsystem.utils import sorted_by_key
+from floodsystem.stationdata import update_water_levels
 
 
 def stations_level_over_threshold(stations, tol):
@@ -19,6 +20,8 @@ def stations_level_over_threshold(stations, tol):
 def stations_highest_rel_level(stations, N):
     """Returns a list of the N stations at which the water level, relative to the typical
     range, is highest"""
+    update_water_levels(stations)
+
     water_level_stations = []
     for station in stations:
         relative_level = station.relative_water_level()
