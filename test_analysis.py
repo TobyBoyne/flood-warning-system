@@ -1,8 +1,8 @@
 from matplotlib.dates import date2num
 import numpy as np
-from datetime import date
+from datetime import date, datetime
 
-from floodsystem.analysis import polyfit
+from floodsystem.analysis import polyfit, projected_level_after_dt
 
 def test_polyfit():
     """For an example set of dates, assert that the level at the date is equal to the level predicted
@@ -23,3 +23,21 @@ def test_polyfit():
     for i, d in enumerate(dates):
         d_num = date2num(d)
         assert round(levels[i] - poly(d_num - d0), 6) == 0
+
+
+def test_projected_level_after_dt():
+    """For an example set of ordered dates (most-recent-first), assert that the projected values are correct"""
+    dates = np.array([
+        datetime(2020, 1, 1, 5),
+        datetime(2020, 1, 1, 4),
+        datetime(2020, 1, 1, 2)
+    ])
+
+    levels = np.array([4, 3, 1])
+
+    # after 0 days, the water level should be equal to most recent result
+    assert round(projected_level_after_dt(dates, levels, 0) - levels[0], 6) == 0
+
+    # after 1 hour, the water level will rise to a value of 5 if the trend continues
+    dt = 1 / 24
+    assert round(projected_level_after_dt(dates, levels, dt) - 5, 6) == 0
