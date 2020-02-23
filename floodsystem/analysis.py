@@ -1,5 +1,6 @@
 from matplotlib.dates import date2num
 import numpy as np
+from datetime import datetime
 
 def polyfit(dates, levels, p):
     """Calculate the polynomial of order p that passes through the data points
@@ -13,7 +14,11 @@ def polyfit(dates, levels, p):
 
     return poly, d0
 
-def gradient_at_time(poly, t):
-    der = np.polyder(poly)
-    gradient = der(t)
-    return gradient
+def projected_level_after_dt(dates, levels, dt=1):
+    """Draws a straight line of best fit to estimate trend
+    Then finds the projected value of that trend after dt days.
+    dates is sorted in most-recent-first order"""
+    best_fit, d0 = polyfit(dates, levels, 1)
+    projected_level = best_fit(dt)
+
+    return projected_level
