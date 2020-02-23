@@ -52,7 +52,7 @@ class MonitoringStation:
             return None
         if not self.typical_range_consistent():
             return None
-        (low,high) = self.typical_range
+        (low, high) = self.typical_range
         return (self.latest_level - low)/(high - low)
 
 
