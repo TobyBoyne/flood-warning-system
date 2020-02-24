@@ -18,14 +18,14 @@ def run():
 
     DT = 2
     DT_future = 1
-    TOL = 3
+    TOL = 2.5
     N_projected = 25
     risk_threshold = (
-        (4, 'Severe'),
-        (2, 'High')
+        (5, 'Severe'),
+        (3, 'High')
     )
 
-    stations = build_station_list()
+    stations = build_station_list(use_cache=True)
     update_water_levels(stations)
 
     risk_stations = {
@@ -41,8 +41,12 @@ def run():
     at_risk_stations = [s[0] for s in at_risk]
     risk_stations["Low"] = [s for s in stations if s not in at_risk_stations]
 
-    for station, current_level in at_risk:
+    # Any station that is not in the top 25 of relative level has the "Moderate" label applied"
+    stations_to_project = at_risk_stations[:N_projected]
+    risk_stations["Moderate"] = at_risk_stations[N_projected:]
 
+    print("Fetching data...")
+    for station in stations_to_project:
         dates, levels = fetch_measure_levels(station.measure_id,
                                              dt=datetime.timedelta(days=DT))
         proj_level = projected_level_after_dt(dates, levels, DT_future)
@@ -59,7 +63,7 @@ def run():
         else:
             risk_stations["Moderate"].append(station)
 
-    print([(key, len(value)) for key, value in risk_stations.items()])
+    print("There are " + ", ".join(str(len(s)) + " " + label + " stations" for label, s in risk_stations.items()))
 
 
 
