@@ -13,8 +13,8 @@ def plot_water_levels(station, dates, levels):
 
     plt.plot(dates, levels)
 
-    plt.axhline(station.typical_range[0], linestyle="dashed", color="green")
-    plt.axhline(station.typical_range[1], linestyle="dashed", color="red")
+    plt.axhline(low, linestyle="dashed", color="green")
+    plt.axhline(high, linestyle="dashed", color="red")
 
     plt.legend(("Water level", "Typical low", "Typical high"))
     plt.xlabel("Dates")
