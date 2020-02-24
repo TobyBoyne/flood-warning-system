@@ -66,3 +66,11 @@ def rivers_by_station_number(stations, N):
     sorted_rivers = sorted_by_key(sorted_rivers, 1, reverse=True)
 
     return list(first_N_with_ties(sorted_rivers, N, i=1))
+
+def towns_with_station(stations):
+    towns = []
+    for station in stations:
+        if station.town not in towns:
+            towns.append(station.town)
+
+    return towns
