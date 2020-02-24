@@ -4,6 +4,7 @@ from floodsystem.analysis import projected_level_after_dt
 from floodsystem.datafetcher import fetch_measure_levels
 from floodsystem.stationdata import build_station_list, update_water_levels
 from floodsystem.flood import stations_level_over_threshold
+from floodsystem.geo import towns_with_station
 
 
 def run():
@@ -14,7 +15,9 @@ def run():
     risk_threshold is then used to clasify the level of risk of a station that is above the typical range
 
     The projection approach is only taken for the top N_projected stations, as the fetch_measure_levels function
-    takes a long time to retrieve the data"""
+    takes a long time to retrieve the data
+
+    The town takes the risk level of the HIGHEST risk station in that town"""
 
     DT = 2
     DT_future = 1
@@ -28,22 +31,18 @@ def run():
     stations = build_station_list(use_cache=True)
     update_water_levels(stations)
 
-    risk_stations = {
-        "Severe": [],
-        "High": [],
-        "Moderate": [],
-        "Low": []
-    }
+    # Create a dict of all towns with a default risk of Low
+    towns = towns_with_station(stations)
+    risk_towns = {town: "Low" for town in towns}
 
+    # Get a list of all stations that could potentially be "at risk"
     at_risk = stations_level_over_threshold(stations, TOL)
-
-    # All stations that are not at risk have the "Low" label applied
     at_risk_stations = [s[0] for s in at_risk]
-    risk_stations["Low"] = [s for s in stations if s not in at_risk_stations]
 
-    # Any station that is not in the top 25 of relative level has the "Moderate" label applied"
+    # Any station that is not in the top 25 of relative level has the "Moderate" label applied to its town
     stations_to_project = at_risk_stations[:N_projected]
-    risk_stations["Moderate"] = at_risk_stations[N_projected:]
+    for station in at_risk_stations[N_projected:]:
+        risk_towns[station.town] = "Moderate"
 
     print("Fetching data...")
     for station in stations_to_project:
@@ -55,20 +54,30 @@ def run():
 
         for tol, label in risk_threshold:
             if rel >= tol:
-                risk_stations[label].append(station)
+                risk_towns[station.town] = label
                 break
 
         # the following else clause will only run if there is no break, meaning rel is not above any risk threshold
         # this means that the risk is moderate
         else:
-            risk_stations["Moderate"].append(station)
+            risk_towns[station.town] = "Moderate"
 
-    print("There are " + ", ".join(str(len(s)) + " " + label + " stations" for label, s in risk_stations.items()))
-    print("These stations are shown below, with their projected relative level.\n")
+    # Reorganise town dict into another dictionary where the key is risk level
+    by_risk = {
+        "Severe":   [],
+        "High":     [],
+        "Moderate": [],
+        "Low":      []
+    }
 
-    for risk in ("Severe", "High"):
-        text_output = ["Stations with a risk of " + risk + ":"]
-        text_output += [s.name + " - " + str(round(s.relative_water_level(), 4)) for s in risk_stations[risk]]
+    for town, risk_level in risk_towns.items():
+        by_risk[risk_level].append(town)
+
+    print("There are " + ", ".join(str(len(s)) + " " + label + " towns" for label, s in by_risk.items()))
+
+    for risk in ("Severe", "High", "Moderate"):
+        text_output = ["Towns with a risk of " + risk + ":"]
+        text_output += by_risk[risk]
         print("\n> ".join(text_output) + "\n")
 
 
