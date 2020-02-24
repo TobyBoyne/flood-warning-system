@@ -37,3 +37,9 @@ def test_rivers_by_station_number():
     rivers = geo.rivers_by_station_number(stations, 1)
 
     assert rivers == [("River Glen", 2), ("River Parrett", 2)]
+
+def test_towns_with_station():
+    stations = gen_stations()
+    towns = geo.towns_with_station(stations)
+
+    assert towns == ['Little Rissington', 'Surfleet Seas End', 'Kingsbury Episcopi', 'Hemingford Grey', 'Swindon']
