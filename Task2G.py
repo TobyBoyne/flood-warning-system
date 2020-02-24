@@ -64,7 +64,12 @@ def run():
             risk_stations["Moderate"].append(station)
 
     print("There are " + ", ".join(str(len(s)) + " " + label + " stations" for label, s in risk_stations.items()))
+    print("These stations are shown below, with their projected relative level.\n")
 
+    for risk in ("Severe", "High"):
+        text_output = ["Stations with a risk of " + risk + ":"]
+        text_output += [s.name + " - " + str(round(s.relative_water_level(), 4)) for s in risk_stations[risk]]
+        print("\n> ".join(text_output) + "\n")
 
 
 if __name__ == "__main__":
