@@ -71,6 +71,6 @@ def towns_with_station(stations):
     towns = []
     for station in stations:
         if station.town not in towns:
-            towns.append(station.town)
+            towns.append(str(station.town))
 
     return towns
