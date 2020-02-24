@@ -24,5 +24,3 @@ def test_stations_level_over_threshhold():
     above_tol = stations_level_over_threshold(stations, 0.5)
     assert len(above_tol)
     assert above_tol[0][0] == stations[4]
-
-test_stations_highest_rel_level()
