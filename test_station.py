@@ -33,3 +33,21 @@ def test_inconsistent_typical_range_stations():
     inconsistent_stations = inconsistent_typical_range_stations(stations)
 
     assert inconsistent_stations == [stations[1], stations[3]]
+
+def test_relative_water_level():
+    """For a given set of levels and their expected relative value, assert that the calculated relative value
+    is the same as expected"""
+    station = gen_stations()[0]
+    levels = (
+        (0.068, 0),
+        (0.3, 0.659090909),
+        (0.42, 1),
+        (0.01, -0.16477272),
+        (None, None)
+    )
+    for level, rel in levels:
+        station.latest_level = level
+        if level is not None:
+            assert round(station.relative_water_level() - rel, 6) == 0
+        else:
+            assert station.relative_water_level() is None
