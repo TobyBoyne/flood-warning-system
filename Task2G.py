@@ -28,7 +28,7 @@ def run():
         (3, 'High')
     )
 
-    stations = build_station_list(use_cache=True)
+    stations = build_station_list(use_cache=False)
     update_water_levels(stations)
 
     # Create a dict of all towns with a default risk of Low
